@@ -10,7 +10,7 @@ import { RxEnvelopeClosed } from "react-icons/rx";
 const ContactCards = () => {
 	const { data: generalSettings, isLoading, isError } = useGeneralSettings();
 
-	const GeneralSettings: WooCommerceSetting[] = generalSettings;
+	const GeneralSettings = (generalSettings ?? []) as any[];
 
 	// console.log("GeneralSettings", GeneralSettings);
 

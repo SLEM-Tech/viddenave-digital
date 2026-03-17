@@ -1,33 +1,32 @@
 "use client";
-import { logoImage } from "@public/images";
-import Picture from "@src/components/picture/Picture";
 import Link from "next/link";
 
 interface LogoImageProps {
 	className?: string;
 }
 
-import { Nunito, Pacifico } from "next/font/google";
-
-const pacifico = Pacifico({
-	subsets: ["latin-ext"],
-	weight: ["400"],
-	style: ["normal"],
-});
-
 export const LogoImage = ({ className }: LogoImageProps) => {
 	return (
-		<Link href='/' className='flex items-end'>
-			{/* <Picture
-				src={logoImage}
-				alt='logo'
-				priority
-				loading='lazy'
-				className={`w-[20px] lg:w-[30px] duration-300 hover:scale-105 transition-[.3] hover:animate-pulse ${className}`}
-			/>
-			<h4 className={`text-base sm:text-lg font-medium ${pacifico.className}`}>
-				krestlogic systems
-			</h4> */}
+		<Link href='/' className={`flex items-center gap-2.5 flex-shrink-0 ${className ?? ""}`}>
+			{/* Viddenave hexagon icon */}
+			<svg width="36" height="42" viewBox="0 0 50 58" fill="none" xmlns="http://www.w3.org/2000/svg">
+				{/* Flat-top hexagon */}
+				<polygon points="49,29 37,8.2 13,8.2 1,29 13,49.8 37,49.8" fill="#0E366B" />
+				{/* Mountain / triangle */}
+				<polygon points="25,17 12,44 38,44" fill="#3A7DC4" />
+				{/* White apex circle */}
+				<circle cx="25" cy="13.5" r="3.8" fill="white" />
+			</svg>
+
+			{/* Text block */}
+			<div className="flex flex-col leading-none gap-[3px]">
+				<span className="text-[17px] font-light tracking-wider" style={{ color: "#9BBDD9" }}>
+					viddenave
+				</span>
+				<span className="text-[7px] font-medium uppercase tracking-[0.32em]" style={{ color: "#7BACD1" }}>
+					digital
+				</span>
+			</div>
 		</Link>
 	);
 };

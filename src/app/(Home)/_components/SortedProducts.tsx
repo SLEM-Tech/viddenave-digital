@@ -152,35 +152,77 @@ const ProductSkeleton = () => (
 );
 
 /* ─────────────────────────────────────────
-   Simple static pagination UI
+   Functional pagination UI
 ───────────────────────────────────────── */
-const Pagination = () => (
-	<div className='flex items-center justify-center gap-1 mt-6'>
-		<button className='w-7 h-7 flex items-center justify-center text-gray-400 hover:text-gray-600 text-sm'>
-			‹
-		</button>
-		{[1, 2, 3, 4].map((n) => (
+const ITEMS_PER_PAGE = 8;
+
+interface PaginationProps {
+	currentPage: number;
+	totalPages: number;
+	onPageChange: (page: number) => void;
+}
+
+const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) => {
+	if (totalPages <= 1) return null;
+
+	// Build the visible page numbers (window of 4 around current)
+	const getPageNumbers = () => {
+		const pages: (number | "…")[] = [];
+		if (totalPages <= 6) {
+			for (let i = 1; i <= totalPages; i++) pages.push(i);
+			return pages;
+		}
+		pages.push(1);
+		const start = Math.max(2, currentPage - 1);
+		const end = Math.min(totalPages - 1, currentPage + 1);
+		if (start > 2) pages.push("…");
+		for (let i = start; i <= end; i++) pages.push(i);
+		if (end < totalPages - 1) pages.push("…");
+		pages.push(totalPages);
+		return pages;
+	};
+
+	return (
+		<div className='flex items-center justify-center gap-1 mt-6'>
 			<button
-				key={n}
-				className={`w-7 h-7 flex items-center justify-center text-xs rounded-sm font-medium ${
-					n === 1
-						? "text-white"
-						: "text-gray-500 hover:bg-gray-100"
-				}`}
-				style={n === 1 ? { background: "#7C3AED" } : {}}
+				onClick={() => onPageChange(currentPage - 1)}
+				disabled={currentPage === 1}
+				className='w-7 h-7 flex items-center justify-center text-gray-400 hover:text-gray-600 text-sm disabled:opacity-30 disabled:cursor-not-allowed'
 			>
-				{n}
+				‹
 			</button>
-		))}
-		<span className='text-gray-400 text-xs px-1'>…</span>
-		<button className='w-7 h-7 flex items-center justify-center text-xs text-gray-500 hover:bg-gray-100 rounded-sm'>
-			28
-		</button>
-		<button className='w-7 h-7 flex items-center justify-center text-gray-400 hover:text-gray-600 text-sm'>
-			›
-		</button>
-	</div>
-);
+
+			{getPageNumbers().map((n, i) =>
+				n === "…" ? (
+					<span key={`ellipsis-${i}`} className='text-gray-400 text-xs px-1'>
+						…
+					</span>
+				) : (
+					<button
+						key={n}
+						onClick={() => onPageChange(n as number)}
+						className={`w-7 h-7 flex items-center justify-center text-xs rounded-sm font-medium transition-colors ${
+							n === currentPage
+								? "text-white"
+								: "text-gray-500 hover:bg-gray-100"
+						}`}
+						style={n === currentPage ? { background: "#7C3AED" } : {}}
+					>
+						{n}
+					</button>
+				)
+			)}
+
+			<button
+				onClick={() => onPageChange(currentPage + 1)}
+				disabled={currentPage === totalPages}
+				className='w-7 h-7 flex items-center justify-center text-gray-400 hover:text-gray-600 text-sm disabled:opacity-30 disabled:cursor-not-allowed'
+			>
+				›
+			</button>
+		</div>
+	);
+};
 
 /* ─────────────────────────────────────────────────────
    Single product section with filter tabs
@@ -202,13 +244,23 @@ const PopularProductsSection = ({
 	const router = useRouter();
 	const [isPending, startTransition] = useTransition();
 	const [activeTab, setActiveTab] = useState<string>("all");
+	const [currentPage, setCurrentPage] = useState(1);
 
-	const displayedProducts: ProductType[] =
+	const allProducts: ProductType[] =
 		activeTab === "all"
-			? allCategories
-					.flatMap((c) => categoryProductsMap[c.id.toString()] || [])
-					.slice(0, 8)
-			: (categoryProductsMap[activeTab] || []).slice(0, 8);
+			? allCategories.flatMap((c) => categoryProductsMap[c.id.toString()] || [])
+			: categoryProductsMap[activeTab] || [];
+
+	const totalPages = Math.ceil(allProducts.length / ITEMS_PER_PAGE);
+	const displayedProducts = allProducts.slice(
+		(currentPage - 1) * ITEMS_PER_PAGE,
+		currentPage * ITEMS_PER_PAGE,
+	);
+
+	const handleTabChange = (tab: string) => {
+		setActiveTab(tab);
+		setCurrentPage(1);
+	};
 
 	const handleCategoryClick = (name: string, id: number) => {
 		const categorySlugId = `${convertToSlug(name) + "-" + id}`;
@@ -236,7 +288,7 @@ const PopularProductsSection = ({
 					<div className='flex items-center flex-wrap gap-0.5'>
 						<span className='text-sm font-bold text-shop mr-3'>Products</span>
 						<button
-							onClick={() => setActiveTab("all")}
+							onClick={() => handleTabChange("all")}
 							className={`text-sm px-3 py-1.5 transition-colors ${
 								activeTab === "all"
 									? "font-semibold border-b-2"
@@ -254,7 +306,7 @@ const PopularProductsSection = ({
 						{allCategories.map((cat) => (
 							<button
 								key={cat.id}
-								onClick={() => setActiveTab(cat.id.toString())}
+								onClick={() => handleTabChange(cat.id.toString())}
 								className={`text-sm px-3 py-1.5 transition-colors ${
 									activeTab === cat.id.toString()
 										? "font-semibold border-b-2"
@@ -304,7 +356,7 @@ const PopularProductsSection = ({
 				</div>
 
 				{/* Pagination */}
-				<Pagination />
+				<Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
 
 				<GlobalLoader isPending={isPending} />
 			</div>
@@ -352,26 +404,38 @@ const SwirlDivider = () => (
 /* ────────────────────────────────
    Main exported component
 ──────────────────────────────── */
-const SortedProducts = ({ middleBanner }: { middleBanner?: React.ReactNode }) => {
-	const [isLoading, setIsLoading] = useState(true);
+const SortedProducts = ({
+	middleBanner,
+	initialCategories,
+	initialProductsMap,
+}: {
+	middleBanner?: React.ReactNode;
+	initialCategories?: CategoryType[];
+	initialProductsMap?: { [key: string]: ProductType[] };
+}) => {
+	const hasServerData = !!initialCategories?.length;
+
+	const [isLoading, setIsLoading] = useState(!hasServerData);
 	const [categoryProductsMap, setCategoryProductsMap] = useState<{
 		[key: string]: ProductType[];
-	}>({});
+	}>(initialProductsMap ?? {});
 
+	// Pass undefined when server data is present to disable the query (enabled: categoryId !== undefined)
 	const {
 		data: categories,
 		isLoading: categoryWpIsLoading,
 		isError: categoryIsError,
-	} = useCategories("");
+	} = useCategories(hasServerData ? undefined : "");
 
-	const filteredCategories: CategoryType[] = (categories || [])
-		.filter((cat: CategoryType) => cat.count > 0)
-		.slice(0, 6);
+	const filteredCategories: CategoryType[] = hasServerData
+		? (initialCategories ?? []).filter((cat) => cat.count > 0).slice(0, 6)
+		: (categories || []).filter((cat: CategoryType) => cat.count > 0).slice(0, 6);
 
 	const group1 = filteredCategories.slice(0, 3);
 	const group2 = filteredCategories.slice(3, 6);
 
 	useEffect(() => {
+		if (hasServerData) return;
 		if (!filteredCategories.length) return;
 
 		const fetchCategoryProducts = async () => {
@@ -404,14 +468,14 @@ const SortedProducts = ({ middleBanner }: { middleBanner?: React.ReactNode }) =>
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [categories]);
 
-	if (categoryIsError) return null;
+	if (categoryIsError && !hasServerData) return null;
 
 	return (
 		<>
 			<PopularProductsSection
 				allCategories={group1.length ? group1 : filteredCategories}
 				categoryProductsMap={categoryProductsMap}
-				isLoading={isLoading || categoryWpIsLoading}
+				isLoading={hasServerData ? false : isLoading || categoryWpIsLoading}
 				title='Our featured Product'
 			/>
 
@@ -425,7 +489,7 @@ const SortedProducts = ({ middleBanner }: { middleBanner?: React.ReactNode }) =>
 				<PopularProductsSection
 					allCategories={group2}
 					categoryProductsMap={categoryProductsMap}
-					isLoading={isLoading || categoryWpIsLoading}
+					isLoading={hasServerData ? false : isLoading || categoryWpIsLoading}
 					title='Popular Product'
 				/>
 			)}

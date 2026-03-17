@@ -93,7 +93,7 @@ const Page = () => {
 									Terms of Service & Procurement Agreement
 								</h4>
 								<p className='mt-3 leading-[1.8] text-xs md:text-sm xl:text-base'>
-									By accessing the apppopper systems platform and
+									By accessing the Viddenave platform and
 									initiating a procurement request, you agree to be bound by the
 									following operational terms and conditions:
 								</p>
@@ -104,7 +104,7 @@ const Page = () => {
 									<span className='font-bold text-slate-800 block uppercase text-[11px] tracking-wider mb-1'>
 										01. Phased Payment Structure
 									</span>
-									apppopper systems operates on a two-phase payment
+									Viddenave operates on a two-phase payment
 									model. <strong>Phase 1 (Procurement):</strong> Covers the cost
 									of goods and must be verified before items are purchased from
 									international vendors. <strong>Phase 2 (Logistics):</strong>{" "}
@@ -127,8 +127,7 @@ const Page = () => {
 										03. Logistics & Timelines
 									</span>
 									While we strive for precision, all delivery timelines (Air:
-									7-14 days; Sea: 45-60 days) are estimates. apppopper systems Digital
-									Innovations is not liable for delays caused by international
+									7-14 days; Sea: 45-60 days) are estimates. Viddenave is not liable for delays caused by international
 									carrier schedules, weather conditions, or Nigerian Customs
 									Service inspections.
 								</li>
@@ -138,7 +137,7 @@ const Page = () => {
 										04. Exchange Rate Fluctuations
 									</span>
 									Prices for international procurement are subject to global
-									market volatility. apppopper systems reserves the
+									market volatility. Viddenave reserves the
 									right to adjust invoices if there is a significant shift in
 									the exchange rate between the time of order placement and the
 									time of actual procurement.
@@ -150,7 +149,7 @@ const Page = () => {
 									</span>
 									Customers are responsible for ensuring that their requested
 									items are not on the Nigerian Customs Service prohibition
-									list. apppopper systems reserves the right to cancel
+									list. Viddenave reserves the right to cancel
 									procurement for items deemed illegal or restricted.
 								</li>
 
@@ -180,7 +179,7 @@ const Page = () => {
 									<span className='font-bold text-slate-800 not-italic uppercase text-[10px] block mb-1'>
 										Limitation of Liability:
 									</span>
-									apppopper systems acts as a procurement and
+									Viddenave acts as a procurement and
 									logistics facilitator. We are not the manufacturers of the
 									goods purchased. Any product warranty claims must be directed
 									to the original manufacturer, though we will provide
@@ -197,7 +196,7 @@ const Page = () => {
 									01. Data Intelligence & Collection
 								</h4>
 								<p className='mt-3 leading-[1.8] text-xs md:text-sm xl:text-base'>
-									apppopper systems collects personal information to
+									Viddenave collects personal information to
 									provide a secure, seamless international procurement and
 									logistics experience. We act as a data controller under the
 									Nigeria Data Protection Regulation (NDPR). By using our
@@ -251,7 +250,7 @@ const Page = () => {
 										<span>
 											<strong>Fraud Mitigation:</strong> Running AML (Anti-Money
 											Laundering) checks and identity cross-referencing to
-											protect the apppopper systems ecosystem.
+											protect the Viddenave ecosystem.
 										</span>
 									</li>
 									<li className='flex items-start gap-3'>
@@ -274,7 +273,7 @@ const Page = () => {
 										03. Data Security & Encryption
 									</h4>
 									<p className='mt-4 leading-[1.8] text-xs md:text-sm xl:text-base opacity-80'>
-										apppopper systems employs bank-grade AES-256
+										Viddenave employs bank-grade AES-256
 										encryption to protect your sensitive identifiers (BVN/NIN).
 										Your data is stored in secure, siloed environments and is
 										never sold to third-party advertisers.
@@ -304,10 +303,10 @@ const Page = () => {
 									of non-essential communications, please contact our Data
 									Protection Officer at
 									<a
-										href='mailto:support@apppopper.com'
+										href='mailto:support@viddenave.com'
 										className='text-primary-100 font-bold ml-1 hover:underline'
 									>
-										privacy@apppopper.com
+										privacy@viddenave.com
 									</a>
 									.
 								</p>

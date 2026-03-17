@@ -12,7 +12,7 @@ const DeliveryReturn = () => {
 				<p className='text-sm md:text-base leading-relaxed max-w-4xl'>
 					At{" "}
 					<span className='font-bold text-slate-900'>
-						apppopper systems
+						Viddenave
 					</span>
 					, we prioritize the integrity of your cargo. From international
 					arrival to last-mile delivery, we utilize a strictly monitored courier
@@ -132,7 +132,7 @@ const DeliveryReturn = () => {
 					<p>
 						•{" "}
 						<span className='font-bold text-slate-800'>Transfer of Risk:</span>{" "}
-						apppopper systems bears no responsibility for items signed
+						Viddenave bears no responsibility for items signed
 						for by unauthorized third parties.
 					</p>
 					<p>
@@ -151,10 +151,10 @@ const DeliveryReturn = () => {
 				<div className='pt-4 flex items-center gap-3 text-xs font-bold text-primary-100'>
 					Queries:{" "}
 					<a
-						href='mailto:support@apppopper.com'
+						href='mailto:support@viddenave.com'
 						className='hover:underline'
 					>
-						support@apppopper.com
+						support@viddenave.com
 					</a>
 				</div>
 			</div>

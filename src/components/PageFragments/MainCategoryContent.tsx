@@ -11,7 +11,7 @@ const MainCategoryContent = () => {
 		isError: categoryIsError,
 	} = useCategories("");
 
-	const Categories: CategoryType[] = categories;
+	const Categories: CategoryType[] = categories ?? [];
 
 	const [categoryProductsMap, setCategoryProductsMap] = useState<{
 		[key: string]: ProductType[];

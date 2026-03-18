@@ -306,7 +306,7 @@ const CostCalculationSection = () => {
 									>
 										terms & conditions
 									</span>{" "}
-									of apppopper systems
+									of Viddenave
 								</span>
 							</label>
 						</div>
